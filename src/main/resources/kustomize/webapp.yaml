@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-webapp
+  labels:
+    #app: postgres
+    app: springboot-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-webapp
+  template:
+    metadata:
+      labels:
+        app: springboot-webapp
+    spec:
+      containers:
+      - name: springboot-webapp-rnd
+        image: cmskjav/springboot-rnd:latest
+        #image: spring-kube-demo:latest
+        #imagePullPolicy: Never
+        ports:
+        - containerPort: 8060
+        env:
+        - name: DB_USER
+          valueFrom: 
+            secretKeyRef:
+                name: postgres-secret
+                key: postgres-user
+        - name: DB_PWD
+          valueFrom: 
+            secretKeyRef:
+                name: postgres-secret
+                key: postgres-password
+        - name: DB_HOST   # Setting Database host address from configMap
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config  # name of configMap
+              key: host
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-webapp-service
+spec:
+  type: NodePort
+  selector:
+    app: springboot-webapp
+  ports:
+    - protocol: TCP
+      # port shouldn't need to be same. But Target port should be same with respective pods port Ex: Template's port
+      port: 8060
+      targetPort: 8060
+      nodePort: 30100

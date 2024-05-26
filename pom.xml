@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.sk</groupId>
 	<artifactId>kubernetes-demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>kubernetes-demo</name>
 	<description>kubernetes-demo</description>
 	<properties>

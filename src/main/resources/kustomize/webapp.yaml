@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: springboot-webapp-rnd
-        image: cmskjav/springboot-rnd:latest
+        image: cmskjav/springboot-rnd:v1
         #image: spring-kube-demo:latest
         #imagePullPolicy: Never
         ports:
@@ -52,4 +52,4 @@ spec:
       # port shouldn't need to be same. But Target port should be same with respective pods port Ex: Template's port
       port: 8060
       targetPort: 8060
-      nodePort: 30100
+      # nodePort: 30100

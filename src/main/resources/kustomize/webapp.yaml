@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: springboot-webapp
+        env: dev
     spec:
       containers:
       - name: springboot-webapp-rnd
@@ -22,6 +23,18 @@ spec:
         #imagePullPolicy: Never
         ports:
         - containerPort: 8060
+        readinessProbe:
+            httpGet:
+              path: /
+              port: 8060
+            initialDelaySeconds: 5
+            periodSeconds: 3
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 8060
+            initialDelaySeconds: 5
+            periodSeconds: 3
         env:
         - name: DB_USER
           valueFrom: 

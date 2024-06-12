@@ -35,6 +35,13 @@ spec:
               port: 8060
             initialDelaySeconds: 5
             periodSeconds: 3
+        resources:
+          requests:
+            memory: "1000Mi"
+            cpu: "500m"
+          limits:
+            memory: "2000Mi"
+            cpu: "1000m"
         env:
         - name: DB_USER
           valueFrom: 
@@ -51,6 +58,14 @@ spec:
             configMapKeyRef:
               name: postgres-config  # name of configMap
               key: host
+        volumeMounts:
+          - name: historic-data-destination
+            mountPath: /rocksdb.db
+      volumes:
+        - name: historic-data-destination
+          hostPath:
+            path: /mnt/current
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
